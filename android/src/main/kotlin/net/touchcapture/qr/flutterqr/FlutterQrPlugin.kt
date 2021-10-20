@@ -17,7 +17,7 @@ class FlutterQrPlugin : FlutterPlugin, ActivityAware {
         @JvmStatic
         fun registerWith(registrar: PluginRegistry.Registrar) {
             FlutterQrPlugin().onAttachedToV1(registrar)
-            QRPhotoDecoder(registrar)
+            QRPhotoDecoder(registrar.messenger())
         }
     }
 
@@ -29,6 +29,7 @@ class FlutterQrPlugin : FlutterPlugin, ActivityAware {
     /** Plugin registration embedding v2 */
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         onAttachedToEngines(flutterPluginBinding.platformViewRegistry, flutterPluginBinding.binaryMessenger, Shared.activity)
+        QRPhotoDecoder(flutterPluginBinding.binaryMessenger)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -42,6 +43,7 @@ class FlutterQrPlugin : FlutterPlugin, ActivityAware {
         platformViewRegistry
                 .registerViewFactory(
                         "net.touchcapture.qr.flutterqr/qrview", QRViewFactory(messenger))
+
     }
 
     override fun onAttachedToActivity(activityPluginBinding: ActivityPluginBinding) {

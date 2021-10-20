@@ -15,13 +15,14 @@ import com.google.zxing.DecodeHintType
 import com.google.zxing.BarcodeFormat
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class QRPhotoDecoder(var registrar: PluginRegistry.Registrar) : MethodChannel.MethodCallHandler {
-    private var channel: MethodChannel = MethodChannel(registrar.messenger(), "net.touchcapture.qr.flutterqr/photo_decoder")
+class QRPhotoDecoder(var messager: BinaryMessenger) : MethodChannel.MethodCallHandler {
+    private var channel: MethodChannel = MethodChannel(messager, "net.touchcapture.qr.flutterqr/photo_decoder")
 
     companion object {
 
@@ -123,7 +124,7 @@ class QRPhotoDecoder(var registrar: PluginRegistry.Registrar) : MethodChannel.Me
         }
 
         override fun onPostExecute(result: String?) {
-            registrar.activity().runOnUiThread {
+            Shared.activity?.runOnUiThread {
                 channel.invokeMethod("onDecodeQR", (result ?: ""))
             }
         }
