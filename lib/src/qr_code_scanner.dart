@@ -60,12 +60,13 @@ class QRView extends StatefulWidget {
 class _QRViewState extends State<QRView> {
   late MethodChannel _channel;
   late LifecycleEventHandler _observer;
+  T? _ambiguate<T>(T? value) => value;
 
   @override
   void initState() {
     super.initState();
     _observer = LifecycleEventHandler(resumeCallBack: updateDimensions);
-    WidgetsBinding.instance.addObserver(_observer);
+    _ambiguate(WidgetsBinding.instance)!.addObserver(_observer);
   }
 
   @override
@@ -83,7 +84,7 @@ class _QRViewState extends State<QRView> {
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(_observer);
+    _ambiguate(WidgetsBinding.instance)!.removeObserver(_observer);
   }
 
   Future<void> updateDimensions() async {
