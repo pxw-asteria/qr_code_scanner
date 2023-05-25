@@ -124,7 +124,7 @@ class QRPhotoDecoder(var messager: BinaryMessenger) : MethodChannel.MethodCallHa
         }
 
         override fun onPostExecute(result: String?) {
-            Shared.activity?.runOnUiThread {
+            QrShared.activity?.runOnUiThread {
                 channel.invokeMethod("onDecodeQR", (result ?: ""))
             }
         }
